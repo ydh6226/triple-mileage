@@ -1,1 +1,28 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
 
+  datasource:
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306/triple
+      username: root
+      password: root
+
+  flyway:
+    enabled: true
+    url: jdbc:mysql://localhost:3306/triple
+    user: root
+    password: root
+    baseline-on-migrate: true
+    baseline-version: 0
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
