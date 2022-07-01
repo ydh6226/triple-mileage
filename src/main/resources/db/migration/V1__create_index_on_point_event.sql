@@ -1,4 +1,4 @@
-create table if not exists mileage
+create table if not exists point
 (
     user_id       binary(16)  not null
         primary key,
@@ -7,7 +7,7 @@ create table if not exists mileage
     mileage       int         not null
 );
 
-create table if not exists mileage_history
+create table if not exists point_event
 (
     id           binary(16)  not null
         primary key,
