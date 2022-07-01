@@ -19,16 +19,22 @@ public class PointEvent extends BaseCreatedTimeEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(columnDefinition = "binary(16)")
     private UUID id;
 
+    @Column(columnDefinition = "binary(16)")
     private UUID reviewId;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(30)")
     private Reason reason;
 
+    @Column(columnDefinition = "binary(16)")
     private UUID userId;
 
+    @Column(columnDefinition = "binary(16)")
     private UUID placeId;
 
+    @Column(name = "mileage")
     private int value;
 }

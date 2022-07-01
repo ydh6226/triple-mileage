@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
@@ -15,7 +16,9 @@ import java.util.UUID;
 public class Point extends BaseTimeEntity {
 
     @Id
+    @Column(columnDefinition = "binary(16)")
     private UUID userId;
 
+    @Column(name = "mileage")
     private int value;
 }
