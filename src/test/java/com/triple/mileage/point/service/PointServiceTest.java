@@ -24,6 +24,7 @@ import static org.mockito.Mockito.verify;
 class PointServiceTest {
 
     private static final UUID USER_ID = randomUUID();
+    private static final UUID REVIEW_ID = randomUUID();
     private static final String CONTENT = "내용";
     private static final int ADDITIONAL_POINT = 5;
 
@@ -78,8 +79,27 @@ class PointServiceTest {
         assertThat(captorPoint.getValue()).isEqualTo(ADDITIONAL_POINT);
     }
 
+    @DisplayName("리뷰 삭제로 인한 포인트 회수")
+    @Test
+    void withdrawReviewPoint() {
+        int originPoint = 10;
+        Point point = new Point(USER_ID, originPoint);
+
+        given(pointRepository.findById(USER_ID))
+                .willReturn(Optional.of(point));
+
+        int changedPoint = -2;
+        given(pointEventService.withdraw(REVIEW_ID)).willReturn(changedPoint);
+
+        // when
+        pointService.withdrawReviewPoint(USER_ID, REVIEW_ID);
+
+        // then
+        assertThat(point.getValue()).isEqualTo(8);
+    }
+
     private PointAdditionCommand createCommand() {
-        return new PointAdditionCommand(USER_ID, Collections.emptyList(), randomUUID(), CONTENT, randomUUID());
+        return new PointAdditionCommand(USER_ID, Collections.emptyList(), randomUUID(), CONTENT, REVIEW_ID);
     }
 
     private static UUID randomUUID() {

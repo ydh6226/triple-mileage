@@ -18,7 +18,7 @@ public class PlacePointRule implements PointAdditionRule {
     public boolean isCreatable(PointAdditionCommand command) {
         Assert.notNull(command, "PointAdditionCommand is required");
 
-        return pointEventQueryRepository.existsActiveReviewAt(command.getPlaceId());
+        return !pointEventQueryRepository.existsActiveReviewAt(command.getPlaceId());
     }
 
     @Override

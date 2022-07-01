@@ -33,4 +33,19 @@ public class PointService {
         return pointRepository.findById(userId)
                 .orElseGet(() -> new Point(userId));
     }
+
+    @Transactional
+    public void withdrawReviewPoint(UUID userId, UUID reviewId) {
+        Point point = findByUserId(userId);
+
+        int changedPoint = pointEventService.withdraw(reviewId);
+        point.sum(changedPoint);
+    }
+
+    private Point findByUserId(UUID userId) {
+        Assert.notNull(userId, "userId is required");
+
+        return pointRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("포인트 지급내역이 없어서 포인트를 회수할 수 없습니다. userId: " + userId));
+    }
 }

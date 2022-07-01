@@ -31,10 +31,11 @@ class PointEventServiceTest {
 
     private static final UUID USER_ID = UUID.randomUUID();
     private static final UUID PLACE_ID = UUID.randomUUID();
+    private static final UUID REVIEW_ID = UUID.randomUUID();
     private static final String CONTENT = "내용";
 
-    private static final PointEvent ADD_CONTENT_EVENT = new PointEvent(UUID.randomUUID(), Reason.ADD_CONTENT, USER_ID, PLACE_ID);
-    private static final PointEvent ADD_FIRST_REVIEW_EVENT = new PointEvent(UUID.randomUUID(), Reason.ADD_FIRST_REVIEW, USER_ID, PLACE_ID);
+    private static final PointEvent ADD_CONTENT_EVENT = new PointEvent(REVIEW_ID, Reason.ADD_CONTENT, USER_ID, PLACE_ID);
+    private static final PointEvent ADD_FIRST_REVIEW_EVENT = new PointEvent(REVIEW_ID, Reason.ADD_FIRST_REVIEW, USER_ID, PLACE_ID);
 
     @InjectMocks
     PointEventService eventService;
@@ -93,6 +94,32 @@ class PointEventServiceTest {
 
     }
 
+    @DisplayName("포인트 회수")
+    @Test
+    void withdraw() {
+        // given
+        given(eventRepository.findByReviewId(REVIEW_ID))
+                .willReturn(List.of(
+                        // 기존에 생성된 이벤트들
+                        new PointEvent(REVIEW_ID, Reason.ADD_CONTENT, USER_ID, PLACE_ID),
+                        new PointEvent(REVIEW_ID, Reason.ATTACH_PHOTO, USER_ID, PLACE_ID)
+                ));
+
+        // when
+        int changedPoint = eventService.withdraw(REVIEW_ID);
+
+        // then
+        assertThat(changedPoint).isEqualTo(Reason.DEL_CONTENT.getPoint() + Reason.DETACH_PHOTO.getPoint());
+
+        verify(eventRepository).saveAll(captor.capture());
+        List<PointEvent> withdrawEvents = captor.getValue();
+
+        assertThat(withdrawEvents).containsExactlyInAnyOrder(
+                new PointEvent(REVIEW_ID, Reason.DEL_CONTENT, USER_ID, PLACE_ID),
+                new PointEvent(REVIEW_ID, Reason.DETACH_PHOTO, USER_ID, PLACE_ID)
+        );
+    }
+
     // 사진으로 포인트를 얻을 수 없다고 가정
     private static class SpyPhotoPointRule implements PointAdditionRule {
         @Override
@@ -128,6 +155,4 @@ class PointEventServiceTest {
             return ADD_FIRST_REVIEW_EVENT;
         }
     }
-
-
 }

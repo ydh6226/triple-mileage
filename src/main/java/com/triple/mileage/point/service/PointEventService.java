@@ -10,6 +10,7 @@ import com.triple.mileage.point.service.rule.PointAdditionRule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.text.MessageFormat;
@@ -27,6 +28,10 @@ public class PointEventService {
     private final PointEventRepository pointEventRepository;
 
     // TODO: 사용자 관점에서 첫 리뷰 테스트 추가
+    /**
+     * 추가된 포인트
+     */
+    @Transactional
     public int add(PointAdditionCommand command) {
         Assert.notNull(command, "PointAdditionCommand is required");
         checkNoActiveReview(command.getPlaceId(), command.getUserId());
@@ -55,4 +60,21 @@ public class PointEventService {
                 .sum();
     }
 
+    /**
+     * 회수된 포인트(음수 값)
+     */
+    @Transactional
+    public int withdraw(UUID reviewId) {
+        Assert.notNull(reviewId, "reviewId is required");
+
+        PointEvents pointEvents = findActivePointEvents(reviewId);
+        List<PointEvent> withdrawEvents = pointEvents.compensate();
+
+        pointEventRepository.saveAll(withdrawEvents);
+        return sumPoints(withdrawEvents);
+    }
+
+    private PointEvents findActivePointEvents(UUID reviewId) {
+        return PointEvents.activeEvents(pointEventRepository.findByReviewId(reviewId));
+    }
 }
