@@ -1,10 +1,7 @@
 package com.triple.mileage.point.domain;
 
 import com.triple.mileage.common.BaseCreatedTimeEntity;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.util.Assert;
 
@@ -13,6 +10,7 @@ import java.util.UUID;
 
 @Getter
 @Entity
+@ToString
 @EqualsAndHashCode(exclude = {"id"}, callSuper = false)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PointEvent extends BaseCreatedTimeEntity {
@@ -54,5 +52,9 @@ public class PointEvent extends BaseCreatedTimeEntity {
         Assert.notNull(reason, "PointEvent.reason is required");
         Assert.notNull(userId, "PointEvent.userId is required");
         Assert.notNull(placeId, "PointEvent.placeId is required");
+    }
+
+    public PointEvent compensate() {
+        return new PointEvent(reviewId, reason.getCompensatingReason(), userId, placeId);
     }
 }
