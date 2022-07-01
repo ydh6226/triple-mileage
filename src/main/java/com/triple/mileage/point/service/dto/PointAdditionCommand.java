@@ -1,5 +1,7 @@
 package com.triple.mileage.point.service.dto;
 
+import com.triple.mileage.point.domain.PointEvent;
+import com.triple.mileage.point.domain.Reason;
 import lombok.Getter;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -33,5 +35,9 @@ public class PointAdditionCommand {
         if (ObjectUtils.isEmpty(content) && ObjectUtils.isEmpty(photoIds)) {
             throw new IllegalArgumentException("텍스트와 첨부사진이 모두 비어있을 수는 없습니다");
         }
+    }
+
+    public PointEvent toEntity(Reason reason) {
+        return new PointEvent(reviewId, reason, userId, placeId);
     }
 }
