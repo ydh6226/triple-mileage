@@ -4,7 +4,7 @@ create table if not exists mileage
         primary key,
     created_date  datetime(6) not null,
     modified_date datetime(6) not null,
-    value         int         not null
+    mileage       int         not null
 );
 
 create table if not exists mileage_history
@@ -16,5 +16,5 @@ create table if not exists mileage_history
     reason       varchar(30) not null,
     review_id    binary(16)  not null,
     user_id      binary(16)  not null,
-    value        int         not null
+    mileage      int         not null
 );
