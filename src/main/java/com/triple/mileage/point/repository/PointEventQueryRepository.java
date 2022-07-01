@@ -23,7 +23,7 @@ public class PointEventQueryRepository {
                 .from(pointEvent)
                 .where(pointEvent.placeId.eq(placeId))
                 .groupBy(pointEvent.reviewId)
-                .having(pointEvent.value.sum().gt(0))
+                .having(pointEvent.value.sum().gt(0)) // 리뷰포인트 점수의 합이 0 보다 크다면 유효한 리뷰가 있음을 의미함
                 .fetchFirst();
         return result != null;
     }

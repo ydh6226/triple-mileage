@@ -37,8 +37,8 @@ class PointEventsTest {
                         ),
                 // 이벤트가 생성만 되고 보상은 없는 경우.
                 Arguments.of(
-                        Collections.emptyList(),
-                        Collections.emptyList()
+                        List.of(createEvent(ATTACH_PHOTO)),
+                        List.of(createEvent(ATTACH_PHOTO))
                         ),
                 // 생성된 이벤트가 전부 보상된 경우 유효한 이벤트 없음.
                 Arguments.of(

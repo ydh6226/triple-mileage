@@ -14,7 +14,7 @@ class PointEventTest {
     private static final UUID USER_ID = UUID.randomUUID();
     private static final UUID PLACE_ID = UUID.randomUUID();
 
-    @DisplayName("해당 이벤트를 보상하는 이벤트를 생성한다. Reason만 반대로 나머지 값은 그대로 유지한다.")
+    @DisplayName("해당 이벤트를 보상하는 이벤트를 생성한다. Reason만 반대로하고 나머지 값은 그대로 유지한다.")
     @ParameterizedTest(name = "origin: {0}, compensation: {1}")
     @CsvSource({
             "ATTACH_PHOTO, DETACH_PHOTO",

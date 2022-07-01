@@ -38,7 +38,7 @@ public class PointEventService {
 
         // TODO: batch insert로 변경
         pointEventRepository.saveAll(events);
-        return sumMileage(events);
+        return sumPoints(events);
     }
 
     private void checkNoActiveReview(UUID placeId, UUID userId) {
@@ -49,7 +49,7 @@ public class PointEventService {
         }
     }
 
-    private int sumMileage(List<PointEvent> events) {
+    private int sumPoints(List<PointEvent> events) {
         return events.stream()
                 .mapToInt(PointEvent::getValue)
                 .sum();

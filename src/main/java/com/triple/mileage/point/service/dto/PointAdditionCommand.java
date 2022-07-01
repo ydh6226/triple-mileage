@@ -38,6 +38,8 @@ public class PointAdditionCommand {
     }
 
     public PointEvent toEntity(Reason reason) {
+        Assert.notNull(reason, "reason is required");
+
         return new PointEvent(reviewId, reason, userId, placeId);
     }
 }

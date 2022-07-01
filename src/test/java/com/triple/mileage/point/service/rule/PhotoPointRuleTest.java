@@ -30,7 +30,7 @@ class PhotoPointRuleTest {
         assertThat(rule.isCreatable(command)).isFalse();
     }
 
-    @DisplayName("첨부된 사진이 한개 이상이라며 포인트 추가 가능")
+    @DisplayName("첨부된 사진이 한개 이상이라면 포인트 추가 가능")
     @Test
     void creatable() {
         // given
