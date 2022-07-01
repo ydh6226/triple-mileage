@@ -66,6 +66,15 @@ public class PointEventService {
     @Transactional
     public int withdraw(UUID reviewId) {
         Assert.notNull(reviewId, "reviewId is required");
-        return 0;
+
+        PointEvents pointEvents = findActivePointEvents(reviewId);
+        List<PointEvent> withdrawEvents = pointEvents.compensate();
+
+        pointEventRepository.saveAll(withdrawEvents);
+        return sumPoints(withdrawEvents);
+    }
+
+    private PointEvents findActivePointEvents(UUID reviewId) {
+        return PointEvents.activeEvents(pointEventRepository.findByReviewId(reviewId));
     }
 }

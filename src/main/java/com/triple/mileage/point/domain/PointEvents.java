@@ -5,6 +5,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @ToString
 public class PointEvents {
@@ -42,5 +43,11 @@ public class PointEvents {
 
     public List<PointEvent> getEvents() {
         return Collections.unmodifiableList(events);
+    }
+
+    public List<PointEvent> compensate() {
+        return events.stream()
+                .map(PointEvent::compensate)
+                .collect(Collectors.toList());
     }
 }

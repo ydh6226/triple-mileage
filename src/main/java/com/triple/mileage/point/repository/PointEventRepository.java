@@ -9,4 +9,6 @@ import java.util.UUID;
 public interface PointEventRepository extends JpaRepository<PointEvent, UUID> {
 
     List<PointEvent> findByPlaceIdAndUserIdOrderByCreatedDate(UUID placeId, UUID userId);
+
+    List<PointEvent> findByReviewId(UUID reviewId);
 }
