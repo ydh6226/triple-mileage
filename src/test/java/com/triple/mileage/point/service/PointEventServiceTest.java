@@ -109,7 +109,7 @@ class PointEventServiceTest {
         int changedPoint = eventService.withdraw(REVIEW_ID);
 
         // then
-        assertThat(changedPoint).isEqualTo(Reason.DEL_CONTENT.getPoint() + Reason.DEL_CONTENT.getPoint());
+        assertThat(changedPoint).isEqualTo(Reason.DEL_CONTENT.getPoint() + Reason.DETACH_PHOTO.getPoint());
 
         verify(eventRepository).saveAll(captor.capture());
         List<PointEvent> withdrawEvents = captor.getValue();
