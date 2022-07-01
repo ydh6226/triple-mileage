@@ -27,7 +27,6 @@ public class PointEventService {
 
     private final PointEventRepository pointEventRepository;
 
-    // TODO: 사용자 관점에서 첫 리뷰 테스트 추가
     /**
      * 추가된 포인트
      */
