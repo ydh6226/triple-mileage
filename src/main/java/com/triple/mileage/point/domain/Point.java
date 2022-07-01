@@ -1,6 +1,6 @@
 package com.triple.mileage.point.domain;
 
-import com.triple.mileage.common.BaseTimeEntity;
+import com.triple.mileage.common.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
