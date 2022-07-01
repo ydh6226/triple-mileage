@@ -1,6 +1,6 @@
 package com.triple.mileage.point.domain;
 
-import com.triple.mileage.common.BaseCreatedTimeEntity;
+import com.triple.mileage.common.entity.BaseCreatedTimeEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.util.Assert;
