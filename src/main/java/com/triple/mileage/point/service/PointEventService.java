@@ -74,6 +74,6 @@ public class PointEventService {
     }
 
     private PointEvents findActivePointEvents(UUID reviewId) {
-        return PointEvents.activeEvents(pointEventRepository.findByReviewId(reviewId));
+        return PointEvents.activeEvents(pointEventRepository.findByReviewIdOrderByCreatedDate(reviewId));
     }
 }
