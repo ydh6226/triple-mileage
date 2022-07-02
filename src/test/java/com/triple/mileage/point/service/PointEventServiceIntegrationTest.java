@@ -66,7 +66,7 @@ class PointEventServiceIntegrationTest {
         pointEventService.withdraw(REVIEW_A_ID);
 
         // then
-        List<PointEvent> userBbbEvents = pointEventRepository.findByUserId(USER_B_ID);
+        List<PointEvent> userBbbEvents = pointEventRepository.findByUserIdOrderByCreatedDateDesc(USER_B_ID);
 
         // 리뷰 작성한 시점에 첫 리뷰가 아니기 때문에 첫 리뷰 포인트 없음.
         assertThat(userBbbEvents).containsExactlyInAnyOrder(

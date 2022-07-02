@@ -98,7 +98,7 @@ class PointEventServiceTest {
     @Test
     void withdraw() {
         // given
-        given(eventRepository.findByReviewId(REVIEW_ID))
+        given(eventRepository.findByReviewIdOrderByCreatedDate(REVIEW_ID))
                 .willReturn(List.of(
                         // 기존에 생성된 이벤트들
                         new PointEvent(REVIEW_ID, Reason.ADD_CONTENT, USER_ID, PLACE_ID),
