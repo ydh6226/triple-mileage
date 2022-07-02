@@ -12,5 +12,5 @@ public interface PointEventRepository extends JpaRepository<PointEvent, UUID> {
 
     List<PointEvent> findByReviewId(UUID reviewId);
 
-    List<PointEvent> findByUserId(UUID userId);
+    List<PointEvent> findByUserIdOrderByCreatedDateDesc(UUID userId);
 }
