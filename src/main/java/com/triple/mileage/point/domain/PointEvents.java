@@ -50,4 +50,13 @@ public class PointEvents {
                 .map(PointEvent::compensate)
                 .collect(Collectors.toList());
     }
+
+    public boolean hasReason(Reason reason) {
+        return events.stream()
+                .anyMatch(event -> event.reasonEquals(reason));
+    }
+
+    public PointEvent modify(Reason reason) {
+        return null;
+    }
 }
