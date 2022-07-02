@@ -1,7 +1,7 @@
 package com.triple.mileage.common.exception;
 
 import com.triple.mileage.common.api.TripleApiResponse;
-import com.triple.mileage.common.redisson.LockAcquirementFailException;
+import com.triple.mileage.common.lock.LockAcquirementFailException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;

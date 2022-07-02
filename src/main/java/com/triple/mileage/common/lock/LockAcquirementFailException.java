@@ -1,4 +1,4 @@
-package com.triple.mileage.common.redisson;
+package com.triple.mileage.common.lock;
 
 import com.triple.mileage.common.exception.BaseException;
 import com.triple.mileage.common.exception.ErrorCode;

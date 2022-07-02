@@ -1,9 +1,10 @@
-package com.triple.mileage.common.redisson;
+package com.triple.mileage.common.lock;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -11,8 +12,9 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
+@Profile("!test")
 @RequiredArgsConstructor
-public class DistributedLockHandler {
+public class RedissonLockHandler implements LockHandler {
 
     private static final int DEFAULT_WAIT_TIME = 200;
     private static final int DEFAULT_LEASE_TIME = 300;
