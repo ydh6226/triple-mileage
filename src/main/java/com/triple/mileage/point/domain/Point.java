@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Version;
 import java.text.MessageFormat;
 import java.util.UUID;
 
@@ -26,6 +27,9 @@ public class Point extends BaseTimeEntity {
 
     @Column(name = "mileage")
     private int value;
+
+    @Version
+    private Integer version;
 
     public Point(UUID userId) {
         this(userId, MIN_VALUE);

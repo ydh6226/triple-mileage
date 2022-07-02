@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ErrorCode {
     // 서버에러
-    INTERNAL_SERVER_ERROR("잠시 후 다시 요청하세요."),
+    INTERNAL_SERVER_ERROR("INTERNAL_SERVER_ERROR"),
 
     // 비즈니스에러
     ALREADY_WRITTEN_REVIEW("이미 작성된 리뷰가 있음."),
@@ -15,7 +15,8 @@ public enum ErrorCode {
     NO_VALID_POINT_EVENTS("유효한 포인트 내역 없음"),
 
     // 단순에러
-    INVALID_PARAMETER("잘못된 파라미터입니다.");
+    INVALID_PARAMETER("잘못된 파라미터입니다."),
+    OPTIMISTIC_LOCK("OPTIMISTIC LOCK EXCEPTION 발생");
 
     private final String description;
 }
