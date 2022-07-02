@@ -16,7 +16,8 @@ public enum ErrorCode {
 
     // 단순에러
     INVALID_PARAMETER("잘못된 파라미터입니다."),
-    OPTIMISTIC_LOCK("OPTIMISTIC LOCK EXCEPTION 발생");
+    OPTIMISTIC_LOCK("OPTIMISTIC LOCK EXCEPTION 발생"),
+    LOCK_ACQUIREMENT_FAIL("분산락 획득 실패");
 
     private final String description;
 }

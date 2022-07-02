@@ -43,7 +43,6 @@ public class PointEventService {
                 .map(rule -> rule.create(command))
                 .collect(Collectors.toList());
 
-        // TODO: batch insert로 변경
         pointEventRepository.saveAll(events);
         return sumPoints(events);
     }

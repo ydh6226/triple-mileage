@@ -1,5 +1,6 @@
 package com.triple.mileage.review;
 
+import com.triple.mileage.common.lock.LockHandler;
 import com.triple.mileage.point.service.PointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -10,13 +11,17 @@ import org.springframework.util.Assert;
 public class ReviewEventHandler {
 
     private final PointService pointService;
+    private final LockHandler lockHandler;
 
     public void handle(ReviewEventRequest request) {
         Assert.notNull(request, "ReviewEventRequest is required");
 
         switch (request.getAction()) {
             case ADD:
-                pointService.add(request.toAdditionCommand());
+                lockHandler.runWithLock(
+                        () -> pointService.add(request.toAdditionCommand()),
+                        request.getPlaceId()
+                );
                 break;
             case MOD:
                 pointService.modifyReviewPoint(request.toModificationCommand());

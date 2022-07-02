@@ -1,6 +1,7 @@
 package com.triple.mileage.common.exception;
 
 import com.triple.mileage.common.api.TripleApiResponse;
+import com.triple.mileage.common.lock.LockAcquirementFailException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -19,6 +20,8 @@ import java.util.List;
 @Slf4j
 @RestControllerAdvice
 public class CommonControllerAdvice {
+
+    private static final String RETRY_MESSAGE = "잠시 후 다시 시도하세요.";
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler
@@ -45,7 +48,14 @@ public class CommonControllerAdvice {
     @ExceptionHandler
     public TripleApiResponse<String> handleBadRequest(ObjectOptimisticLockingFailureException e) {
         log.info(ErrorCode.OPTIMISTIC_LOCK.getDescription(), e);
-        return TripleApiResponse.fail("잠시 후 다시 시도하세요.", ErrorCode.OPTIMISTIC_LOCK);
+        return TripleApiResponse.fail(RETRY_MESSAGE, ErrorCode.OPTIMISTIC_LOCK);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler
+    public TripleApiResponse<String> handleBadRequest(LockAcquirementFailException e) {
+        log.info(ErrorCode.LOCK_ACQUIREMENT_FAIL.getDescription(), e);
+        return TripleApiResponse.fail(RETRY_MESSAGE, ErrorCode.LOCK_ACQUIREMENT_FAIL);
     }
 
     // Bean Validation

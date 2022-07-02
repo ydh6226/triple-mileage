@@ -1,0 +1,14 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true

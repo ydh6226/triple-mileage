@@ -1,13 +1,19 @@
 package com.triple.mileage.point.service;
 
+import com.triple.mileage.common.lock.LockHandler;
 import com.triple.mileage.point.domain.PointEvent;
 import com.triple.mileage.point.domain.Reason;
 import com.triple.mileage.point.repository.PointEventRepository;
 import com.triple.mileage.point.service.dto.PointAdditionCommand;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +21,9 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 @SpringBootTest
+@EnableAutoConfiguration(exclude = RedissonAutoConfiguration.class)
 class PointEventServiceIntegrationTest {
 
     private static final UUID USER_A_ID = UUID.randomUUID();
@@ -32,6 +40,14 @@ class PointEventServiceIntegrationTest {
 
     @Autowired
     PointEventRepository pointEventRepository;
+
+    @MockBean(name = "lockHandler")
+    LockHandler lockHandler;
+
+    @BeforeEach
+    void initHandler() {
+        lockHandler = (runnable, uuid) -> runnable.run();
+    }
 
     @DisplayName("유저 관점에서 첫 번째 리뷰만 보너스 포인트를 받는다.")
     @Test
