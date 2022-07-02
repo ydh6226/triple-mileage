@@ -120,6 +120,31 @@ class PointEventServiceTest {
         );
     }
 
+    @DisplayName("해당 리뷰에 회수할 포인트가 없다면 새로운 이벤트를 생성하지 않는다.")
+    @Test
+    void withdraw2() {
+        // given
+        given(eventRepository.findByReviewIdOrderByCreatedDate(REVIEW_ID))
+                .willReturn(List.of(
+                        // 해당 리뷰는 이미 회수 처리가 된 상태
+                        new PointEvent(REVIEW_ID, Reason.ADD_CONTENT, USER_ID, PLACE_ID),
+                        new PointEvent(REVIEW_ID, Reason.ATTACH_PHOTO, USER_ID, PLACE_ID),
+                        new PointEvent(REVIEW_ID, Reason.DEL_CONTENT, USER_ID, PLACE_ID),
+                        new PointEvent(REVIEW_ID, Reason.DETACH_PHOTO, USER_ID, PLACE_ID)
+                ));
+
+        // when
+        int changedPoint = eventService.withdraw(REVIEW_ID);
+
+        // then
+        assertThat(changedPoint).isZero();
+
+        verify(eventRepository).saveAll(captor.capture());
+        List<PointEvent> withdrawEvents = captor.getValue();
+
+        assertThat(withdrawEvents).isEmpty();
+    }
+
     // 사진으로 포인트를 얻을 수 없다고 가정
     private static class SpyPhotoPointRule implements PointAdditionRule {
         @Override
