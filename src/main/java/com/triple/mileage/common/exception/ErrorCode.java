@@ -12,6 +12,7 @@ public enum ErrorCode {
     // 비즈니스에러
     ALREADY_WRITTEN_REVIEW("이미 작성된 리뷰가 있음."),
     NEGATIVE_ACCUMULATED_POINTS("누적포인트는 음수일 수 없음."),
+    NO_VALID_POINT_EVENTS("유효한 포인트 내역 없음"),
 
     // 단순에러
     INVALID_PARAMETER("잘못된 파라미터입니다.");
