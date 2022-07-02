@@ -57,4 +57,12 @@ public class PointEvent extends BaseCreatedTimeEntity {
     public PointEvent compensate() {
         return new PointEvent(reviewId, reason.getCompensatingReason(), userId, placeId);
     }
+
+    public boolean reasonEquals(Reason reason) {
+        return this.reason == reason;
+    }
+
+    public PointEvent generateChangedReason(Reason reason) {
+        return new PointEvent(reviewId, reason, userId, placeId);
+    }
 }
