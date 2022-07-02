@@ -4,6 +4,7 @@ import com.triple.mileage.common.api.TripleApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -38,6 +39,13 @@ public class CommonControllerAdvice {
     public TripleApiResponse<String> handleBadRequest(IllegalArgumentException e) {
         log.info("잘못된 파라미터: {}", e.getMessage(), e);
         return TripleApiResponse.fail(e.getMessage(), ErrorCode.INVALID_PARAMETER);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler
+    public TripleApiResponse<String> handleBadRequest(ObjectOptimisticLockingFailureException e) {
+        log.info(ErrorCode.OPTIMISTIC_LOCK.getDescription(), e);
+        return TripleApiResponse.fail("잠시 후 다시 시도하세요.", ErrorCode.OPTIMISTIC_LOCK);
     }
 
     // Bean Validation
