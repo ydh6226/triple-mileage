@@ -3,6 +3,7 @@ package com.triple.mileage.point.service;
 import com.triple.mileage.point.domain.Point;
 import com.triple.mileage.point.repository.PointRepository;
 import com.triple.mileage.point.service.dto.PointAdditionCommand;
+import com.triple.mileage.point.service.dto.PointModificationCommand;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,7 +50,7 @@ class PointServiceTest {
         given(pointRepository.findById(USER_ID))
                 .willReturn(Optional.of(point));
 
-        PointAdditionCommand command = createCommand();
+        PointAdditionCommand command = createAdditionCommand();
         given(pointEventService.add(command)).willReturn(ADDITIONAL_POINT);
 
         // when
@@ -66,7 +67,7 @@ class PointServiceTest {
         given(pointRepository.findById(USER_ID))
                 .willReturn(Optional.empty());
 
-        PointAdditionCommand command = createCommand();
+        PointAdditionCommand command = createAdditionCommand();
         given(pointEventService.add(command)).willReturn(ADDITIONAL_POINT);
 
         // when
@@ -77,6 +78,26 @@ class PointServiceTest {
 
         Point captorPoint = captor.getValue();
         assertThat(captorPoint.getValue()).isEqualTo(ADDITIONAL_POINT);
+    }
+
+    @DisplayName("리뷰 수정으로 인한 포인트 변경")
+    @Test
+    void modifyReviewPoint() {
+        int originPoint = 5;
+        Point point = new Point(USER_ID, originPoint);
+
+        given(pointRepository.findById(USER_ID))
+                .willReturn(Optional.of(point));
+
+        int changedPoint = -2;
+        PointModificationCommand command = createModificationCommand();
+        given(pointEventService.modify(command)).willReturn(changedPoint);
+
+        // when
+        pointService.modifyReviewPoint(command);
+
+        // then
+        assertThat(point.getValue()).isEqualTo(3);
     }
 
     @DisplayName("리뷰 삭제로 인한 포인트 회수")
@@ -98,8 +119,12 @@ class PointServiceTest {
         assertThat(point.getValue()).isEqualTo(8);
     }
 
-    private PointAdditionCommand createCommand() {
+    private PointAdditionCommand createAdditionCommand() {
         return new PointAdditionCommand(USER_ID, Collections.emptyList(), randomUUID(), CONTENT, REVIEW_ID);
+    }
+
+    private PointModificationCommand createModificationCommand() {
+        return new PointModificationCommand(USER_ID, CONTENT, Collections.emptyList(), REVIEW_ID);
     }
 
     private static UUID randomUUID() {

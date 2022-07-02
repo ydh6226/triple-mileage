@@ -1,6 +1,7 @@
 package com.triple.mileage.review;
 
 import com.triple.mileage.point.service.dto.PointAdditionCommand;
+import com.triple.mileage.point.service.dto.PointModificationCommand;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -49,6 +50,15 @@ public class ReviewEventRequest {
                 attachedPhotoIds,
                 placeId,
                 content,
+                reviewId
+        );
+    }
+
+    public PointModificationCommand toModificationCommand() {
+        return new PointModificationCommand(
+                userId,
+                content,
+                attachedPhotoIds,
                 reviewId
         );
     }

@@ -3,6 +3,7 @@ package com.triple.mileage.point.service;
 import com.triple.mileage.point.domain.Point;
 import com.triple.mileage.point.repository.PointRepository;
 import com.triple.mileage.point.service.dto.PointAdditionCommand;
+import com.triple.mileage.point.service.dto.PointModificationCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,16 @@ public class PointService {
     private Point findOrCreate(UUID userId) {
         return pointRepository.findById(userId)
                 .orElseGet(() -> new Point(userId));
+    }
+
+    @Transactional
+    public void modifyReviewPoint(PointModificationCommand command) {
+        Assert.notNull(command, "PointModificationCommand is required");
+
+        Point point = findByUserId(command.getUserId());
+
+        int changedPoint = pointEventService.modify(command);
+        point.sum(changedPoint);
     }
 
     @Transactional

@@ -19,13 +19,13 @@ public class ReviewEventHandler {
                 pointService.add(request.toAdditionCommand());
                 break;
             case MOD:
-                // TODO: 추가
+                pointService.modifyReviewPoint(request.toModificationCommand());
                 break;
             case DELETE:
                 pointService.withdrawReviewPoint(request.getUserId(), request.getReviewId());
                 break;
             default:
-                throw new IllegalArgumentException("지원 하지 않는 ACTION 입니다. action: " + request.getAction());
+                throw new IllegalArgumentException("지원하지 않는 ACTION 입니다. action: " + request.getAction());
         }
     }
 }

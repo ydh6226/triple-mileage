@@ -6,6 +6,7 @@ import com.triple.mileage.point.domain.PointEvents;
 import com.triple.mileage.point.domain.PointException;
 import com.triple.mileage.point.repository.PointEventRepository;
 import com.triple.mileage.point.service.dto.PointAdditionCommand;
+import com.triple.mileage.point.service.dto.PointModificationCommand;
 import com.triple.mileage.point.service.rule.PointAdditionRule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,10 @@ public class PointEventService {
         return events.stream()
                 .mapToInt(PointEvent::getValue)
                 .sum();
+    }
+
+    public int modify(PointModificationCommand command) {
+        return 0;
     }
 
     /**
