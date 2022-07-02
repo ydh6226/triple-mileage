@@ -3,12 +3,14 @@ package com.triple.mileage.review;
 import com.triple.mileage.point.service.dto.PointAdditionCommand;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
+@ToString
 @NoArgsConstructor
 public class ReviewEventRequest {
 

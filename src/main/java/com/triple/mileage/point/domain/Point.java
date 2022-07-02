@@ -1,6 +1,7 @@
 package com.triple.mileage.point.domain;
 
 import com.triple.mileage.common.entity.BaseTimeEntity;
+import com.triple.mileage.common.exception.ErrorCode;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,10 +33,16 @@ public class Point extends BaseTimeEntity {
 
     public Point(UUID userId, int value) {
         Assert.notNull(userId, "Point.userId is required");
-        Assert.isTrue(value >= MIN_VALUE, MessageFormat.format("포인트는 {0} 이상이어야 합니다", MIN_VALUE));
+        checkNotNegative(value);
 
         this.userId = userId;
         this.value = value;
+    }
+
+    private void checkNotNegative(int value) {
+        if (value < MIN_VALUE) {
+            throw new PointException(ErrorCode.NEGATIVE_ACCUMULATED_POINTS, MessageFormat.format("포인트는 {0} 이상이어야 합니다", MIN_VALUE));
+        }
     }
 
     public void sum(int value) {

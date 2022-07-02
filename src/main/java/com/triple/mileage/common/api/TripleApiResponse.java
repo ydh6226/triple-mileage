@@ -27,6 +27,10 @@ public class TripleApiResponse<T> {
         return new TripleApiResponse<>(true, data, null);
     }
 
+    public static <T> TripleApiResponse<T> fail(ErrorCode errorCode) {
+        return fail(null, errorCode);
+    }
+
     public static <T> TripleApiResponse<T> fail(T data, ErrorCode errorCode) {
         return new TripleApiResponse<>(false, data, errorCode);
     }
