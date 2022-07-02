@@ -11,6 +11,11 @@ spring:
       username: root
       password: root
 
+  redis:
+    host: localhost
+    port: 6379
+    password: root
+
   flyway:
     enabled: true
     url: jdbc:mysql://localhost:3306/triple
@@ -19,11 +24,7 @@ spring:
     baseline-on-migrate: true
     baseline-version: 0
 
-logging:
-  level:
-    org.hibernate.SQL: debug
-
 decorator:
   datasource:
     p6spy:
-      enable-logging: true
+      enable-logging: false

@@ -36,7 +36,10 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.flywaydb:flyway-mysql'
 
-    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.8'
+    // 쿼리 디버깅
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0'
+
+    implementation 'org.redisson:redisson-spring-boot-starter:3.17.4'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
