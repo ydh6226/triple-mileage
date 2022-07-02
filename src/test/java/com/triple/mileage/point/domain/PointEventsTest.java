@@ -1,6 +1,8 @@
 package com.triple.mileage.point.domain;
 
+import com.triple.mileage.common.exception.ErrorCode;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,6 +14,7 @@ import java.util.stream.Stream;
 
 import static com.triple.mileage.point.domain.Reason.*;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class PointEventsTest {
 
@@ -66,6 +69,58 @@ class PointEventsTest {
                         )
                 )
         );
+    }
+
+    @DisplayName("포인트 수정할 때 유요한 이벤트가 없다면 예외를 던진다.")
+    @Test
+    void modify_NoValidEvents_throwsException() {
+        // given
+        PointEvents pointEvents = PointEvents.activeEvents(Collections.emptyList());
+
+        // expect
+        assertThatExceptionOfType(PointException.class)
+                .isThrownBy(() -> pointEvents.modify(ADD_CONTENT))
+                .matches(e -> e.getErrorCode() == ErrorCode.NO_VALID_POINT_EVENTS);
+    }
+
+    @DisplayName("입력으로 받은 Reason의 이벤트가 존재하면 해당 이벤트를 보상하는 이벤트를 생성한다.")
+    @ParameterizedTest(name = "originalReason: {0}, compensatedReason: {1}")
+    @MethodSource("modifyCompensationSource")
+    void modify_compensation(Reason originalReason, Reason compensatedReason) {
+        // given
+        PointEvents pointEvents = PointEvents.activeEvents(List.of(createEvent(originalReason)));
+
+        // when
+        PointEvent modifiedReason = pointEvents.modify(originalReason);
+
+        // then
+        assertThat(modifiedReason.getReason()).isEqualTo(compensatedReason);
+    }
+
+    public static Stream<Arguments> modifyCompensationSource() {
+        return Stream.of(
+                Arguments.of(ADD_CONTENT, DEL_CONTENT),
+                Arguments.of(ATTACH_PHOTO, DETACH_PHOTO)
+        );
+    }
+
+    @DisplayName("입력으로 받은 Reason의 이벤트가 존재하지 않으면 Reason에 해당하는 이벤트를 생성한다.")
+    @Test
+    void modify_addition() {
+        // given
+        PointEvent originalEvent = createEvent(ADD_CONTENT);
+
+        PointEvents pointEvents = PointEvents.activeEvents(List.of(originalEvent));
+
+        // when
+        PointEvent modifiedReason = pointEvents.modify(ATTACH_PHOTO);
+
+        // then
+        assertThat(modifiedReason.getReason()).isEqualTo(ATTACH_PHOTO);
+        assertThat(modifiedReason.getReviewId()).isEqualTo(originalEvent.getReviewId());
+        assertThat(modifiedReason.getUserId()).isEqualTo(originalEvent.getUserId());
+        assertThat(modifiedReason.getPlaceId()).isEqualTo(originalEvent.getPlaceId());
+        assertThat(modifiedReason.getValue()).isEqualTo(originalEvent.getValue());
     }
 
     private static PointEvent createEvent(Reason reason) {

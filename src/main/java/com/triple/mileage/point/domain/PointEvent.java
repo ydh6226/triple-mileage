@@ -61,4 +61,8 @@ public class PointEvent extends BaseCreatedTimeEntity {
     public boolean reasonEquals(Reason reason) {
         return this.reason == reason;
     }
+
+    public PointEvent generateChangedReason(Reason reason) {
+        return new PointEvent(reviewId, reason, userId, placeId);
+    }
 }
