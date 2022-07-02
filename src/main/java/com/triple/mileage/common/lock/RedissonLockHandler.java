@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RedissonLockHandler implements LockHandler {
 
-    private static final int DEFAULT_WAIT_TIME = 200;
-    private static final int DEFAULT_LEASE_TIME = 300;
+    private static final int DEFAULT_WAIT_TIME = 2;
+    private static final int DEFAULT_LEASE_TIME = 3;
 
     private final RedissonClient redissonClient;
 
@@ -26,7 +26,7 @@ public class RedissonLockHandler implements LockHandler {
 
         RLock lock = redissonClient.getLock(stringKey);
         try {
-            boolean isLocked = lock.tryLock(DEFAULT_WAIT_TIME, DEFAULT_LEASE_TIME, TimeUnit.MILLISECONDS);
+            boolean isLocked = lock.tryLock(DEFAULT_WAIT_TIME, DEFAULT_LEASE_TIME, TimeUnit.SECONDS);
             if (!isLocked) {
                 throwException(stringKey);
             }
@@ -36,7 +36,7 @@ public class RedissonLockHandler implements LockHandler {
             log.info("락 획득 중 InterruptedException 예외 발생", e);
             throwException(stringKey);
         } finally {
-            lock.unlock();
+            lock.unlockAsync();
         }
     }
 

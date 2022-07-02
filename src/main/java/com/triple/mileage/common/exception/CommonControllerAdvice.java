@@ -55,7 +55,7 @@ public class CommonControllerAdvice {
     @ExceptionHandler
     public TripleApiResponse<String> handleBadRequest(LockAcquirementFailException e) {
         log.info(ErrorCode.LOCK_ACQUIREMENT_FAIL.getDescription(), e);
-        return TripleApiResponse.fail(RETRY_MESSAGE, ErrorCode.OPTIMISTIC_LOCK);
+        return TripleApiResponse.fail(RETRY_MESSAGE, ErrorCode.LOCK_ACQUIREMENT_FAIL);
     }
 
     // Bean Validation
