@@ -93,31 +93,31 @@ class PhotoPointRuleTest {
                 Arguments.of(
                         // 수정 전 사진 존재 o, 수정 후 사진 존재 o => 포인트 변경 없음.
                         PointEvents.activeEvents(List.of(ATTACH_PHOTO_EVENT)),
-                        createModificationContent(VALID_PHOTO_IDS),
+                        createModificationCommand(VALID_PHOTO_IDS),
                         false
                 ),
                 Arguments.of(
                         // 수정 전 사진 존재 x, 수정 후 사진 존재 x => 포인트 변경 없음.
                         PointEvents.activeEvents(List.of(OTHER_EVENT)),
-                        createModificationContent(NULL_PHOTO_IDS),
+                        createModificationCommand(NULL_PHOTO_IDS),
                         false
                 ),
                 Arguments.of(
                         // 수정 전 사진 존재 x, 수정 후 사진 존재 o => 포인트 변경 필요함.
                         PointEvents.activeEvents(List.of(OTHER_EVENT)),
-                        createModificationContent(VALID_PHOTO_IDS),
+                        createModificationCommand(VALID_PHOTO_IDS),
                         true
                 ),
                 Arguments.of(
                         // 수정 전 사진 존재 o, 수정 후 사진 존재 x => 포인트 변경 필요함.
                         PointEvents.activeEvents(List.of(ATTACH_PHOTO_EVENT)),
-                        createModificationContent(NULL_PHOTO_IDS),
+                        createModificationCommand(NULL_PHOTO_IDS),
                         true
                 )
         );
     }
 
-    private static PointModificationCommand createModificationContent(List<UUID> photoIds) {
+    private static PointModificationCommand createModificationCommand(List<UUID> photoIds) {
         return new PointModificationCommand(USER_ID, CONTENT, photoIds, REVIEW_ID);
     }
 

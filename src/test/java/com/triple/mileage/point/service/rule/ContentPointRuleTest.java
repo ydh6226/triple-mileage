@@ -96,31 +96,31 @@ class ContentPointRuleTest {
                 Arguments.of(
                         // 수정 전 텍스트 존재 o, 수정 후 텍스트 존재 o => 포인트 변경 없음.
                         PointEvents.activeEvents(List.of(ADD_CONTENT_EVENT)),
-                        createModificationContent(VALID_CONTENT),
+                        createModificationCommand(VALID_CONTENT),
                         false
                 ),
                 Arguments.of(
                         // 수정 전 텍스트 존재 x, 수정 후 텍스트 존재 x => 포인트 변경 없음.
                         PointEvents.activeEvents(List.of(OTHER_EVENT)),
-                        createModificationContent(NULL_CONTENT),
+                        createModificationCommand(NULL_CONTENT),
                         false
                 ),
                 Arguments.of(
                         // 수정 전 텍스트 존재 o, 수정 후 텍스트 존재 x => 포인트 변경 필요함.
                         PointEvents.activeEvents(List.of(ADD_CONTENT_EVENT)),
-                        createModificationContent(NULL_CONTENT),
+                        createModificationCommand(NULL_CONTENT),
                         true
                 ),
                 Arguments.of(
                         // 수정 전 텍스트 존재 x, 수정 후 텍스트 존재 o => 포인트 변경 필요함.
                         PointEvents.activeEvents(List.of(OTHER_EVENT)),
-                        createModificationContent(VALID_CONTENT),
+                        createModificationCommand(VALID_CONTENT),
                         true
                 )
         );
     }
 
-    private static PointModificationCommand createModificationContent(String content) {
+    private static PointModificationCommand createModificationCommand(String content) {
         return new PointModificationCommand(USER_ID, content, PHOTO_IDS, REVIEW_ID);
     }
 

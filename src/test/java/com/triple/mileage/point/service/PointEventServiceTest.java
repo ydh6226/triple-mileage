@@ -51,7 +51,6 @@ class PointEventServiceTest {
 
     PointEventRepository eventRepository;
 
-    // TODO: 네이밍 수정
     List<PointAdditionRule> additionRules;
 
     List<PointModificationRule> modificationRules;
